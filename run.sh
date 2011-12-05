@@ -18,5 +18,5 @@ exec 2>&1
 
 for line in `find $env -name nightlie.sh`; do
     echo "[+] Executing $line"
-#    exec $line
+    exec $line
 done
