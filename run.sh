@@ -3,6 +3,8 @@
 date=`/bin/date '+%F_%T'`
 env=""
 
+cd `dirname "$0"`
+
 if [ -f "env.txt"  ]
 then
     env=`cat env.txt`
@@ -16,5 +18,5 @@ exec 2>&1
 
 for line in `find $env -name nightlie.sh`; do
     echo "[+] Executing $line"
-    exec $line
+#    exec $line
 done
