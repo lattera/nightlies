@@ -1,6 +1,20 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
-for line in `find . -name nightlie.sh`; do
+date=`/bin/date '+%F_%T'`
+env=""
+
+if [ -f "env.txt"  ]
+then
+    env=`cat env.txt`
+else
+    echo "Please place environment in env.txt"
+    exit 0
+fi
+
+exec 1> logs/$date
+exec 2>&1
+
+for line in `find $env -name nightlie.sh`; do
     echo "[+] Executing $line"
     exec $line
 done
