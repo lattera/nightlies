@@ -1,0 +1,13 @@
+nightlies
+=========
+
+Nightly jobs that run via cron.
+
+Prerequisites
+=============
+* Bash
+
+Setup
+=====
+* Place the environment in a file called env.txt
+  - run.sh looks to exec scripts called nightlie.sh in $env/
