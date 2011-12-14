@@ -19,10 +19,12 @@ then
     debugging="true"
 fi
 
-exec 1> logs/$date
-exec 2>&1
-
 for line in `find $env -name nightlie.sh`; do
+    # Use one log file per nightly
+    logfile=`echo $line | sed 's/\//_/g'`
+    exec 1> logs/$date-$logfile.log
+    exec 2>&1
+
     echo "[+] Executing $line"
     if [ "$debugging" = "false" ]; then
         exec $line
