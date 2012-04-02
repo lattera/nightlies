@@ -2,6 +2,7 @@
 
 git_remote_url="git@github.com:lattera/freebsd-ports.git"
 git_remote_name="github"
+needs_sudo="true"
 
 # Abstract the directories so that they can be mounted anywhere
 base_dataset="rpool/ports_cvs"
@@ -12,7 +13,25 @@ supfile="cvs-supfile"
 base_directory=`zfs get -H -ovalue mountpoint ${base_dataset}`
 cvsroot_directory=`zfs get -H -ovalue mountpoint ${base_dataset}/${cvsroot_dataset}`
 git_directory=`zfs get -H -ovalue mountpoint ${base_dataset}/${git_dataset}`
+date=$(date '+%F_%T')
 
+# See if we need sudo to snapshot the ZFS datasets
+username=$(id -p | grep uid | awk '{print $2;}')
+perms=$(zfs allow ${base_dataset}/${cvsroot_dataset} | grep ${username} | awk '{print $3;}')
+
+if [ ${#perms} -gt 0 ]; then
+    needs_sudo="false"
+fi
+
+if [ "${needs_sudo}" == "true" ]; then
+    sudo zfs snapshot ${base_dataset}/${cvsroot_dataset}@${date}
+    sudo zfs snapshot ${base_dataset}/${git_dataset}@${date}
+else
+    zfs snapshot ${base_dataset}/${cvsroot_dataset}@${date}
+    zfs snapshot ${base_dataset}/${git_dataset}@${date}
+fi
+
+exit 0
 cd ${base_directory}
 
 if [ ! -f ${supfile} ]; then
