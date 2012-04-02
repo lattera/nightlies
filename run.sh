@@ -13,6 +13,10 @@ else
     exit 0
 fi
 
+if [ -f ${env}/profile.sh ]; then
+	. ${env}/profile.sh
+fi
+
 if [ -f "debug" ]; then
     debugging="true"
 fi
