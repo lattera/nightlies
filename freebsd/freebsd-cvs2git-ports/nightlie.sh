@@ -23,7 +23,9 @@ if [ ${#perms} -gt 0 ]; then
     needs_sudo="false"
 fi
 
+# Use ZFS snapshots for sanity
 if [ "${needs_sudo}" == "true" ]; then
+    # XXX Requires passwordless sudo access to /sbin/zfs
     sudo zfs snapshot ${base_dataset}/${cvsroot_dataset}@${date}
     sudo zfs snapshot ${base_dataset}/${git_dataset}@${date}
 else
@@ -31,7 +33,6 @@ else
     zfs snapshot ${base_dataset}/${git_dataset}@${date}
 fi
 
-exit 0
 cd ${base_directory}
 
 if [ ! -f ${supfile} ]; then
