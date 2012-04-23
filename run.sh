@@ -21,7 +21,7 @@ if [ -f "debug" ]; then
     debugging="true"
 fi
 
-for line in `find $env -name nightlie.sh`; do
+for line in `find $env -name nightlie.sh | sort`; do
     if [ "$debugging" == "false" ]; then
         # Use one log file per nightly
         logfile=`echo $line | sed 's/\//_/g'`
