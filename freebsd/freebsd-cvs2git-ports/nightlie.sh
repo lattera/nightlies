@@ -61,4 +61,4 @@ if [ -f .cvsignore ]; then
 fi
 
 git pull ${git_remote_name} master
-git push ${git_remote_name}
+git push -u ${git_remote_name} master
