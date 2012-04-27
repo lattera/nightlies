@@ -8,7 +8,7 @@ set -e
 
 cd /usr/src
 make -j4 buildworld
-make -j4 buildkernel KERNCONF=${KERNCONF}
+make -j4 WITH_CTF=1 buildkernel KERNCONF=${KERNCONF}
 
 cd /usr/src/release
 sudo make clean
