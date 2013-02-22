@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
-date=`/bin/date '+%F_%T'`
+date=$(/bin/date '+%F_%T')
 env=""
 debugging="false"
 
-cd `dirname "$0"`
+cd `dirname "${0}"`
 
 if [ -f "env.txt"  ]; then
     env=`cat env.txt`
@@ -21,16 +21,16 @@ if [ -f "debug" ]; then
     debugging="true"
 fi
 
-for line in `find $env -name nightlie.sh | sort`; do
-    if [ "$debugging" == "false" ]; then
+for line in $(find ${env} -name nightlie.sh | sort); do
+    if [ "${debugging}" = "false" ]; then
         # Use one log file per nightly
         logfile=`echo $line | sed 's/\//_/g'`
-        exec 1> logs/$date-$logfile.log
+        exec 1> logs/${date}-${logfile}.log
         exec 2>&1
     fi
 
-    echo "[+] Executing $line"
-    if [ "$debugging" == "false" ]; then
-        $line
+    echo "[+] Executing ${line}"
+    if [ "${debugging}" = "false" ]; then
+        ${line}
     fi
 done

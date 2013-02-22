@@ -1,7 +1,7 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env zsh
 
 cd /usr/ports
-git fetch upstream
-git merge upstream/master
+git fetch
+git merge origin/master
 
-make index
+make -j7 index
